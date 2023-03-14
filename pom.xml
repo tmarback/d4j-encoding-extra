@@ -50,99 +50,36 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
-        <checker.version>3.32.0</checker.version> <!-- Version of the Checker framework used -->
-        <reporter.version>1.1.0</reporter.version> <!-- Version of the tree reporter used -->
+        <d4j.version>3.2.3</d4j.version> <!-- Version of Discord4J used -->
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-
-            <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>5.9.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-bom</artifactId>
-                <version>5.1.1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>2.0.6</version>
+            <groupId>com.discord4j</groupId>
+            <artifactId>discord4j-core</artifactId>
+            <version>${d4j.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.checkerframework</groupId>
-            <artifactId>checker-qual</artifactId>
-            <version>${checker.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.checkerframework</groupId>
-            <artifactId>checker-util</artifactId>
-            <version>${checker.version}</version>
-        </dependency>
-
-        <!-- Testing dependencies -->
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.4.5</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Make the compiler shut up about JSR305 tags -->
-
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
+            <!-- the annotation processor, compile only -->
+            <groupId>org.immutables</groupId>
+            <artifactId>value</artifactId>
+            <version>2.9.2</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <!-- annotation to encodings, need to be reexported transitively, so annotation can be read at compile time for using modules -->
+            <groupId>org.immutables</groupId>
+            <artifactId>encode</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
         </dependency>
 
     </dependencies>
@@ -227,7 +164,12 @@
                         </tags>
                         <links>
                             <link>https://checkerframework.org/api/</link>
+                            <link>https://javadoc.io/doc/com.discord4j/discord4j-core/${d4j.version}/</link>
+                            <link>https://javadoc.io/doc/com.discord4j/discord4j-common/${d4j.version}/</link>
                         </links>
+                        <configuration>
+                            <sourcepath>${project.basedir}/src/main/java;${project.basedir}/target/generated-sources/annotations</sourcepath>
+                        </configuration>
                     </configuration>
                 </plugin>
 
@@ -268,37 +210,6 @@
                     <version>3.4.2</version>
                 </plugin>
 
-                <plugin>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>3.0.0-M9</version>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-jxr-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                
-                <!-- none or multiple lifecycles -->
-                <plugin>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>3.2.1</version>
-                    <configuration>
-                        <configLocation>checkstyle.xml</configLocation>
-                        <cacheFile>${project.build.directory}/checkstyle-cachefile</cacheFile>
-                        <headerLocation>LICENSE</headerLocation>
-                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    </configuration>
-                    <dependencies>
-
-                        <dependency>
-                            <groupId>com.puppycrawl.tools</groupId>
-                            <artifactId>checkstyle</artifactId>
-                            <version>10.8.0</version>
-                        </dependency>
-
-                    </dependencies>
-                </plugin>
-
             </plugins>
         </pluginManagement>
         <plugins>
@@ -311,105 +222,8 @@
                 </configuration>
             </plugin>
 
-            <!-- Unit tests -->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <dependencies>
-                
-                    <dependency>
-                        <groupId>me.fabriciorby</groupId>
-                        <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
-                        <version>${reporter.version}</version>
-                    </dependency>
-
-                </dependencies>
-                <configuration>
-                    <!-- Tree output for tests -->
-                    <reportFormat>plain</reportFormat>
-                    <consoleOutputReporter>
-                        <disable>true</disable>
-                    </consoleOutputReporter>
-                    <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
-                </configuration>
-            </plugin>
-            
-            <!-- Integration tests -->
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <dependencies>
-
-                    <dependency>
-                        <groupId>me.fabriciorby</groupId>
-                        <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
-                        <version>${reporter.version}</version>
-                    </dependency>
-
-                </dependencies>
-                <configuration>
-                    <!-- Tree output for tests -->
-                    <reportFormat>plain</reportFormat>
-                    <consoleOutputReporter>
-                        <disable>true</disable>
-                    </consoleOutputReporter>
-                    <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter" />
-                </configuration>
-                <executions>
-
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-    
-            <!-- Test report generation -->
-            <plugin>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <id>unit-tests</id>
-                        <reports>
-                            <report>report-only</report>
-                        </reports>
-                    </reportSet>
-                    <reportSet>
-                        <id>integration-tests</id>
-                        <reports>
-                            <report>failsafe-report-only</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            
-            <!-- Style report generation -->
-            <plugin>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            
-            <!-- Generate cross-references -->
-            <plugin>
-                <artifactId>maven-jxr-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-    </reporting>
 
     <profiles>
     
@@ -521,162 +335,6 @@
                     <url>https://maven.pkg.github.com/tmarback/d4j-encoding-extra</url>
                 </repository>
             </distributionManagement>
-        </profile>
-        
-        <!-- Stricter compiler checking -->
-        <profile>
-            <id>lint</id>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <artifactId>maven-clean-plugin</artifactId>
-                        <executions>
-                            
-                            <!-- Remove compiled classes to ensure recompilation -->
-                            <execution>
-                                <id>clean-classes</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>clean</goal>
-                                </goals>
-                            </execution>
-
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>pre-compile</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>compile</goal>
-                                </goals>
-                                <configuration>
-                                    <showWarnings>false</showWarnings>
-                                    <failOnWarning>false</failOnWarning>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>default-compile</id>
-                                <configuration>
-                                    <fork>true</fork> <!-- Must fork or else JVM arguments are ignored. -->
-                                    <compilerArguments>
-                                        <Xmaxerrs>10000</Xmaxerrs>
-                                        <Xmaxwarns>10000</Xmaxwarns>
-                                    </compilerArguments>
-                                    <annotationProcessorPaths>
-        
-                                        <path>
-                                            <groupId>org.checkerframework</groupId>
-                                            <artifactId>checker</artifactId>
-                                            <version>${checker.version}</version>
-                                        </path>
-                                        
-                                        <!-- Add previously compiled classes for extra checker functionality -->
-                                        <path>
-                                            <groupId>${project.groupId}</groupId>
-                                            <artifactId>${project.artifactId}</artifactId>
-                                            <version>${project.version}</version>
-                                        </path>
-        
-                                    </annotationProcessorPaths>
-                                    <annotationProcessors>
-                                        <!-- Enabled checkers -->
-                                        <!-- See checker list at https://checkerframework.org/manual -->
-                                        <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.optional.OptionalChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
-                                        <!-- <annotationProcessor>org.checkerframework.checker.lock.LockChecker</annotationProcessor> --> <!-- Not currently compatible with Streams (https://github.com/typetools/checker-framework/issues/5012) -->
-                                        <!-- <annotationProcessor>org.checkerframework.checker.index.IndexChecker</annotationProcessor> --> <!-- Crashes with pattern matching (https://github.com/typetools/checker-framework/issues/5013) -->
-                                        <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.tainting.TaintingChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.regex.RegexChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.signedness.SignednessChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.common.initializedfields.InitializedFieldsChecker</annotationProcessor>
-                                        <annotationProcessor>org.checkerframework.checker.resourceleak.ResourceLeakChecker</annotationProcessor>
-                                    </annotationProcessors>
-                                    <compilerArgs>
-                                        <arg>-Xlint:all,-processing,-requires-transitive-automatic,-requires-automatic</arg>
-                                        <!-- <arg>-AreportEvalWarns</arg> --> <!-- TODO: Too many issues for the time being -->
-                                        <!-- <arg>-Astubs=./stubs</arg> --> <!-- Uncomment if using stubs -->
-                                        <arg>-AstubWarnIfNotFoundIgnoresClasses</arg>
-                                        <!-- I don't need to know what didn't run, spammy -->
-                                        <arg>-AsuppressWarnings=type.checking.not.run</arg>
-                                        <!-- Say which checker threw the error or warning -->
-                                        <arg>-AshowPrefixInWarningMessages</arg>
-                                        <!-- Manually open JDK packages until checker supports modules -->
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
-                                        <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
-                                        <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
-                                    </compilerArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-        
-        <!-- Style checking -->
-        <profile>
-            <id>style</id>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <configuration>
-                            <consoleOutput>true</consoleOutput>
-                            <linkXRef>false</linkXRef>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>validate</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                </plugins>
-            </build>
-        </profile>
-        
-        <!-- Do not allow warnings (compiler or style) -->
-        <profile>
-            <id>strict</id>
-            <build>
-                <plugins>
-
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <failOnWarning>true</failOnWarning>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <configuration>
-                            <violationSeverity>warning</violationSeverity>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
         </profile>
 
     </profiles>

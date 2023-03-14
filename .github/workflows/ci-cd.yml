@@ -14,41 +14,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out main Git repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.sha }}
-      - name: Set up Apache Maven Central
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
-          cache: 'maven'
-      - name: Run tests
-        run: mvn clean verify -B
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out main Git repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.sha }}
-          submodules: 'true'
-      - name: Set up Apache Maven Central
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
-          cache: 'maven'
-      - name: Run static checks
-        run: mvn compile -B -P lint,strict
-
   prepare:
     name: Prepare Metadata
     runs-on: ubuntu-latest
@@ -110,7 +75,7 @@ jobs:
 
   deploy:
     name: Deploy Version
-    needs: [ test, lint, prepare ]
+    needs: [ prepare ]
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag' || needs.prepare.outputs.type == 'snapshot'
     steps:
@@ -162,7 +127,6 @@ jobs:
 
   site-build:
     name: Build Site
-    needs: [ test, lint ]
     runs-on: ubuntu-latest
     steps:
       - name: Check out main Git repository
