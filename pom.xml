@@ -6,12 +6,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.sympho</groupId>
-    <artifactId>CHANGEME</artifactId>
+    <artifactId>d4j-encoding-extra</artifactId>
     <version>0.1.0-SNAPSHOT</version>
 
-    <name>CHANGEME</name>
-    <description>CHANGEME.</description>
-    <url>https://CHANGEME.sympho.dev</url>
+    <name>d4j-encoding-extra</name>
+    <description>Extra encodings for Discord4J types to make them work as fields in Immutables.</description>
+    <url>https://d4j-encoding-extra.sympho.dev</url>
 
     <licenses>
         <license>
@@ -36,15 +36,15 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/tmarback/CHANGEME.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/tmarback/CHANGEME.git</developerConnection>
+        <connection>scm:git:git://github.com/tmarback/d4j-encoding-extra.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/tmarback/d4j-encoding-extra.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/tmarback/CHANGEME/tree/main</url>
+        <url>https://github.com/tmarback/d4j-encoding-extra/tree/main</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/tmarback/CHANGEME/issues</url>
+        <url>https://github.com/tmarback/d4j-encoding-extra/issues</url>
     </issueManagement>
 
     <properties>
@@ -457,7 +457,7 @@
                                 </goals>
                                 <configuration>
                                     <!-- GPG key used for signing -->
-                                    <keyname>CHANGEME</keyname>
+                                    <keyname>6B59AC1D86E77E1F7B3C6702E6A62DA8E718D59B</keyname>
                                     <!-- Prevent `gpg` from using pinentry programs -->
                                     <gpgArguments>
                                         <arg>--pinentry-mode</arg>
@@ -513,12 +513,12 @@
                 <snapshotRepository>
                     <id>github</id>
                     <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/tmarback/CHANGEME</url>
+                    <url>https://maven.pkg.github.com/tmarback/d4j-encoding-extra</url>
                 </snapshotRepository>
                 <repository>
                     <id>github</id>
                     <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/tmarback/CHANGEME</url>
+                    <url>https://maven.pkg.github.com/tmarback/d4j-encoding-extra</url>
                 </repository>
             </distributionManagement>
         </profile>

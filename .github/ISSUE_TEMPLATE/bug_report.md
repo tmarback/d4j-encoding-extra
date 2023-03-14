@@ -26,7 +26,7 @@ If applicable, add logging output to help explain your problem.
 **Environment (please complete the following information):**
  - OS: [e.g. iOS]
  - Java Version: [e.g. 11]
- - CHANGEME Version: [e.g. 1.4.0]
+ - d4j-encoding-extra Version: [e.g. 1.4.0]
 
 **Additional context**
 Add any other context about the problem here.

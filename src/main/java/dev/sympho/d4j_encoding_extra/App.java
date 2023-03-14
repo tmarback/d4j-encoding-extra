@@ -1,4 +1,4 @@
-package dev.sympho.CHANGEME;
+package dev.sympho.d4j_encoding_extra;
 
 /**
  * Hello world!
