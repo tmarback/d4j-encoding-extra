@@ -5,7 +5,7 @@
 
     <groupId>dev.sympho</groupId>
     <artifactId>d4j-encoding-extra</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0-SNAPSHOT</version>
 
     <name>d4j-encoding-extra</name>
     <description>Extra encodings for Discord4J types to make them work as fields in Immutables.</description>
@@ -36,7 +36,7 @@
     <scm>
         <connection>scm:git:git://github.com/tmarback/d4j-encoding-extra.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/tmarback/d4j-encoding-extra.git</developerConnection>
-        <tag>v0.1.0</tag>
+        <tag>HEAD</tag>
         <url>https://github.com/tmarback/d4j-encoding-extra/tree/main</url>
     </scm>
 
