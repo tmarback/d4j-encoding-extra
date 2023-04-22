@@ -48,7 +48,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
-        <d4j.version>3.2.3</d4j.version> <!-- Version of Discord4J used -->
+        <d4j.version>3.2.4</d4j.version> <!-- Version of Discord4J used -->
     </properties>
 
     <dependencies>
