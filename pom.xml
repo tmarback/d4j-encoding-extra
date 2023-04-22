@@ -71,7 +71,7 @@
             <!-- annotation to encodings, need to be reexported transitively, so annotation can be read at compile time for using modules -->
             <groupId>org.immutables</groupId>
             <artifactId>encode</artifactId>
-            <version>2.9.2</version>
+            <version>2.9.3</version>
         </dependency>
 
         <dependency>
